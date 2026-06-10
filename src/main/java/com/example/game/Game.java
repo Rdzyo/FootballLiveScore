@@ -1,5 +1,7 @@
 package com.example.game;
 
+import java.util.Objects;
+
 public class Game {
     private String homeTeam, awayTeam;
     private int homeScore, awayScore;
@@ -52,4 +54,35 @@ public class Game {
     public void setInProgress(boolean inProgress) {
         this.inProgress = inProgress;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return Objects.equals(homeTeam, game.homeTeam) && Objects.equals(awayTeam, game.awayTeam);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(homeTeam, awayTeam);
+    }
+
+    static void validateTeamNames(String homeTeam, String awayTeam) {
+        if(isTeamNameIsNullOrBlank(homeTeam) || isTeamNameIsNullOrBlank(awayTeam)) {
+            throw new IllegalArgumentException("Team names cannot be null or blank");
+        }
+        if(isHomeTeamIsEqualToAwayTeam(homeTeam, awayTeam)) {
+            throw new IllegalArgumentException("Team names cannot be equal in the same match");
+        }
+    }
+
+    private static boolean isTeamNameIsNullOrBlank(String teamName) {
+        return teamName == null || teamName.isBlank();
+    }
+
+    private static boolean isHomeTeamIsEqualToAwayTeam(String homeTeam, String awayTeam) {
+        return homeTeam.equals(awayTeam);
+    }
+
+
 }
