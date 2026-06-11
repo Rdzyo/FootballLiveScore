@@ -3,7 +3,8 @@ package com.example.game;
 import java.util.Objects;
 
 public class Game {
-    private String homeTeam, awayTeam;
+    private final String homeTeam;
+    private final String awayTeam;
     private int homeScore, awayScore;
 
     public Game(String homeTeam, String awayTeam, int homeScore, int awayScore) {
@@ -16,33 +17,14 @@ public class Game {
     public String getHomeTeam() {
         return homeTeam;
     }
-
-    public void setHomeTeam(String homeTeam) {
-        this.homeTeam = homeTeam;
-    }
-
     public String getAwayTeam() {
         return awayTeam;
     }
-
-    public void setAwayTeam(String awayTeam) {
-        this.awayTeam = awayTeam;
-    }
-
     public int getHomeScore() {
         return homeScore;
     }
-
-    public void setHomeScore(int homeScore) {
-        this.homeScore = homeScore;
-    }
-
     public int getAwayScore() {
         return awayScore;
-    }
-
-    public void setAwayScore(int awayScore) {
-        this.awayScore = awayScore;
     }
 
     @Override
@@ -66,6 +48,9 @@ public class Game {
         if(isTeamNameIsNullOrBlank(homeTeam) || isTeamNameIsNullOrBlank(awayTeam)) {
             throw new IllegalArgumentException("Team names cannot be null or blank");
         }
+        if(isTeamHasSpecialCharactersOrDigits(homeTeam) || isTeamHasSpecialCharactersOrDigits(awayTeam)) {
+            throw new IllegalArgumentException("Team names cannot have special characters or digits");
+        }
         if(isTeamNameHasLeadingOrTrailingSpace(homeTeam) || isTeamNameHasLeadingOrTrailingSpace(awayTeam)) {
             throw new IllegalArgumentException("Team names cannot have leading or trailing space");
         }
@@ -84,5 +69,9 @@ public class Game {
 
     private static boolean isTeamNameHasLeadingOrTrailingSpace(String teamName) {
         return (teamName.length() > 1 && teamName.charAt(0) == ' ') || (teamName.length() > 1 && teamName.charAt(teamName.length() - 1) == ' ');
+    }
+
+    private static boolean isTeamHasSpecialCharactersOrDigits(String teamName) {
+        return !teamName.chars().allMatch(ch -> ch == ' ' || Character.isLetter(ch));
     }
 }

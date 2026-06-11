@@ -36,4 +36,19 @@ public class GameUpdateTest {
         Assertions.assertEquals(0, game2.getHomeScore());
         Assertions.assertEquals(0, game2.getAwayScore());
     }
+
+    @Test
+    void updateGame_multipleGames_shouldUpdateCorrectGameWithSpaceInBetweenFromActiveGames() {
+        Game game1 = scoreboard.startGame(TEST_HOME_TEAM, TEST_AWAY_TEAM);
+        Game game2 = scoreboard.startGame("United States", "Malta");
+        int updatedHomeScore = 1;
+        int updatedAwayScore = 2;
+
+        scoreboard.updateGame("United States", "Malta", updatedHomeScore, updatedAwayScore);
+
+        Assertions.assertEquals(0, game1.getHomeScore());
+        Assertions.assertEquals(0, game1.getAwayScore());
+        Assertions.assertEquals(updatedHomeScore, game2.getHomeScore());
+        Assertions.assertEquals(updatedAwayScore, game2.getAwayScore());
+    }
 }

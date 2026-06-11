@@ -2,6 +2,8 @@ package com.example.game;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.example.game.GameTestUtils.TEST_AWAY_TEAM;
 import static com.example.game.GameTestUtils.TEST_HOME_TEAM;
@@ -59,11 +61,25 @@ public class GameStartValidationTest {
     void startGame_teamNameWithLeadingSpace_shouldThrowException() {
         var teamNameWithLeadingSpace = "    " + "United States";
         Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(teamNameWithLeadingSpace, TEST_AWAY_TEAM));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(TEST_HOME_TEAM, teamNameWithLeadingSpace));
     }
 
     @Test
     void startGame_teamNameWithTrailingSpace_shouldThrowException() {
         var teamNameWithTrailingSpace = "United States" + "    ";
         Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(teamNameWithTrailingSpace, TEST_AWAY_TEAM));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(TEST_HOME_TEAM, teamNameWithTrailingSpace));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "'", ";", "9"})
+    void startGame_teamNameWithSpecialCharactersOrDigits_shouldThrowException(char character) {
+        var homeTeamNameWithSpecialCharOrDigit = TEST_HOME_TEAM + character;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(homeTeamNameWithSpecialCharOrDigit, TEST_AWAY_TEAM));
+
+        var awayTeamNameWithSpecialCharOrDigit = TEST_AWAY_TEAM + character;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(TEST_HOME_TEAM, awayTeamNameWithSpecialCharOrDigit));
     }
 }

@@ -2,6 +2,8 @@ package com.example.game;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.example.game.GameTestUtils.TEST_AWAY_TEAM;
 import static com.example.game.GameTestUtils.TEST_HOME_TEAM;
@@ -55,5 +57,17 @@ public class GameUpdateValidationTest {
         var teamWithSpacesBetween = "Republic of South Africa";
         var sameTeamNameWithoutSpaces = "RepublicofSouthAfrica";
         Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(teamWithSpacesBetween, sameTeamNameWithoutSpaces));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "'", ";", "9"})
+    void startGame_teamNameWithSpecialCharactersOrDigits_shouldThrowException(char character) {
+        var homeTeamNameWithSpecialCharOrDigit = TEST_HOME_TEAM + character;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(homeTeamNameWithSpecialCharOrDigit, TEST_AWAY_TEAM));
+
+        var awayTeamNameWithSpecialCharOrDigit = TEST_AWAY_TEAM + character;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(TEST_HOME_TEAM, awayTeamNameWithSpecialCharOrDigit));
     }
 }

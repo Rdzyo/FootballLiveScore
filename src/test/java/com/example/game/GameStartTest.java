@@ -32,4 +32,16 @@ public class GameStartTest {
 
         Assertions.assertNotNull(game);
     }
+
+    @Test
+    void startGame_shouldCreateGameIfTeamHasSpaceInBetween() {
+        var teamName = "United States";
+        var initSizeScoreboard = scoreboard.getActiveGames().size();
+        Game game = scoreboard.startGame(TEST_HOME_TEAM, teamName);
+
+        Assertions.assertEquals(initSizeScoreboard+1, scoreboard.getActiveGames().size());
+        Assertions.assertNotNull(game);
+        Assertions.assertEquals(TEST_HOME_TEAM, game.getHomeTeam());
+        Assertions.assertEquals(teamName, game.getAwayTeam());
+    }
 }

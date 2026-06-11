@@ -1,6 +1,5 @@
 package com.example.game;
 
-import java.util.Arrays;
 import java.util.HashSet;
 
 import static com.example.game.Game.validateTeamNames;
