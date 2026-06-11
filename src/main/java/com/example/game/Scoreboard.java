@@ -1,5 +1,6 @@
 package com.example.game;
 
+import java.util.Arrays;
 import java.util.HashSet;
 
 import static com.example.game.Game.validateTeamNames;
@@ -16,6 +17,13 @@ public class Scoreboard {
         }
         activeGames.add(game);
         return game;
+    }
+
+    void updateGame(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        activeGames.stream()
+                .filter(game ->  game.getHomeTeam().equals(homeTeam) && game.getAwayTeam().equals(awayTeam))
+                .findFirst()
+                .ifPresent(game -> game.updateScore(homeScore, awayScore));
     }
 
     HashSet<Game> getActiveGames() {

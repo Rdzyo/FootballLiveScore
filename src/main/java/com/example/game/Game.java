@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Game {
     private String homeTeam, awayTeam;
     private int homeScore, awayScore;
-    private boolean inProgress;
 
     public Game(String homeTeam, String awayTeam, int homeScore, int awayScore) {
         this.homeTeam = homeTeam;
@@ -56,6 +55,11 @@ public class Game {
     @Override
     public int hashCode() {
         return Objects.hash(homeTeam, awayTeam);
+    }
+
+    void updateScore(int homeScore, int awayScore) {
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
     }
 
     static void validateTeamNames(String homeTeam, String awayTeam) {
