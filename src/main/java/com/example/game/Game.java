@@ -67,7 +67,7 @@ public class Game {
         return teamName == null || teamName.isBlank();
     }
 
-    private static boolean isHomeTeamIsEqualToAwayTeam(String homeTeam, String awayTeam) {
+    static boolean isHomeTeamIsEqualToAwayTeam(String homeTeam, String awayTeam) {
         return homeTeam.replace(" ", "").equalsIgnoreCase(awayTeam.replace(" ", ""));
     }
 

@@ -71,6 +71,12 @@ public class GameStartValidationTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(TEST_HOME_TEAM, teamNameWithTrailingSpace));
     }
 
+    @Test
+    void startGame_sameTeamInDifferentActiveGames_shouldThrowException() {
+        scoreboard.startGame(TEST_HOME_TEAM, TEST_AWAY_TEAM);
+        Assertions.assertThrows(IllegalStateException.class, () -> scoreboard.startGame(TEST_HOME_TEAM, "Malta"));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "'", ";", "9"})
     void startGame_teamNameWithSpecialCharactersOrDigits_shouldThrowException(char character) {

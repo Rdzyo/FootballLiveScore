@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.example.game.Game.isHomeTeamIsEqualToAwayTeam;
 import static com.example.game.Game.validateTeamNames;
 
 public class Scoreboard {
@@ -13,10 +14,10 @@ public class Scoreboard {
 
     Game startGame(String homeTeam, String awayTeam) {
         validateTeamNames(homeTeam, awayTeam);
-        Game game = new Game(homeTeam, awayTeam, 0, 0, Instant.now());
-        if(activeGames.contains(game)) {
+        if(isTeamCurrentlyPlaying(homeTeam, awayTeam)) {
             throw new IllegalStateException("Game with given teams is already live and tracked");
         }
+        Game game = new Game(homeTeam, awayTeam, 0, 0, Instant.now());
         activeGames.add(game);
         return game;
     }
@@ -38,5 +39,15 @@ public class Scoreboard {
 
     void finishGame(Game activeGame) {
         activeGames.remove(activeGame);
+    }
+
+    private boolean isTeamCurrentlyPlaying(String homeTeam, String awayTeam) {
+        if(activeGames.isEmpty()) {
+            return false;
+        } else {
+            return activeGames.stream().anyMatch(game ->
+                    isHomeTeamIsEqualToAwayTeam(game.getHomeTeam(), homeTeam) || isHomeTeamIsEqualToAwayTeam(game.getAwayTeam(), homeTeam)
+                            || isHomeTeamIsEqualToAwayTeam(game.getAwayTeam(), awayTeam) || isHomeTeamIsEqualToAwayTeam(game.getHomeTeam(), awayTeam));
+        }
     }
 }
