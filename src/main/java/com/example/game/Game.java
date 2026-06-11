@@ -7,12 +7,11 @@ public class Game {
     private int homeScore, awayScore;
     private boolean inProgress;
 
-    public Game(String homeTeam, String awayTeam, int homeScore, int awayScore, boolean inProgress) {
+    public Game(String homeTeam, String awayTeam, int homeScore, int awayScore) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
-        this.inProgress = inProgress;
     }
 
     public String getHomeTeam() {
@@ -45,14 +44,6 @@ public class Game {
 
     public void setAwayScore(int awayScore) {
         this.awayScore = awayScore;
-    }
-
-    public boolean isInProgress() {
-        return inProgress;
-    }
-
-    public void setInProgress(boolean inProgress) {
-        this.inProgress = inProgress;
     }
 
     @Override

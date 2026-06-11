@@ -32,11 +32,4 @@ public class GameStartTest {
 
         Assertions.assertNotNull(game);
     }
-
-    @Test
-    void startGame_shouldSetGameInProgressToTrue() {
-        Game game = scoreboard.startGame(TEST_HOME_TEAM, TEST_AWAY_TEAM);
-
-        Assertions.assertTrue(game.isInProgress());
-    }
 }

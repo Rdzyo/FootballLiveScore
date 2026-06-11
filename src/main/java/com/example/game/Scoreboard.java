@@ -8,9 +8,9 @@ public class Scoreboard {
 
     private final HashSet<Game> activeGames = new HashSet<>();
 
-    public Game startGame(String homeTeam, String awayTeam) {
+    Game startGame(String homeTeam, String awayTeam) {
         validateTeamNames(homeTeam, awayTeam);
-        Game game = new Game(homeTeam, awayTeam, 0, 0, true);
+        Game game = new Game(homeTeam, awayTeam, 0, 0);
         if(activeGames.contains(game)) {
             throw new IllegalStateException("Game with given teams is already live and tracked");
         }
@@ -20,5 +20,9 @@ public class Scoreboard {
 
     HashSet<Game> getActiveGames() {
         return activeGames;
+    }
+
+    void finishGame(Game activeGame) {
+        activeGames.remove(activeGame);
     }
 }
