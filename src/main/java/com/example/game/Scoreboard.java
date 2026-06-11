@@ -20,6 +20,7 @@ public class Scoreboard {
     }
 
     void updateGame(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+        validateTeamNames(homeTeam, awayTeam);
         activeGames.stream()
                 .filter(game ->  game.getHomeTeam().equals(homeTeam) && game.getAwayTeam().equals(awayTeam))
                 .findFirst()
