@@ -66,6 +66,9 @@ public class Game {
         if(isTeamNameIsNullOrBlank(homeTeam) || isTeamNameIsNullOrBlank(awayTeam)) {
             throw new IllegalArgumentException("Team names cannot be null or blank");
         }
+        if(isTeamNameHasLeadingOrTrailingSpace(homeTeam) || isTeamNameHasLeadingOrTrailingSpace(awayTeam)) {
+            throw new IllegalArgumentException("Team names cannot have leading or trailing space");
+        }
         if(isHomeTeamIsEqualToAwayTeam(homeTeam, awayTeam)) {
             throw new IllegalArgumentException("Team names cannot be equal in the same match");
         }
@@ -76,8 +79,10 @@ public class Game {
     }
 
     private static boolean isHomeTeamIsEqualToAwayTeam(String homeTeam, String awayTeam) {
-        return homeTeam.equals(awayTeam);
+        return homeTeam.replace(" ", "").equalsIgnoreCase(awayTeam.replace(" ", ""));
     }
 
-
+    private static boolean isTeamNameHasLeadingOrTrailingSpace(String teamName) {
+        return (teamName.length() > 1 && teamName.charAt(0) == ' ') || (teamName.length() > 1 && teamName.charAt(teamName.length() - 1) == ' ');
+    }
 }

@@ -36,8 +36,34 @@ public class GameStartValidationTest {
     }
 
     @Test
-    void startGame_sameTeamName_shouldThrowException() {
+    void startGame_sameTeamNameWithSpaceBetween_shouldThrowException() {
+        var teamWithSpaceBetween = "United States";
+        var sameTeamNameWithoutSpace = "UnitedStates";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(teamWithSpaceBetween, sameTeamNameWithoutSpace));
+    }
+
+    @Test
+    void startGame_sameTeamNameWithMultipleSpacesBetween_shouldThrowException() {
+        var teamWithSpacesBetween = "Republic of South Africa";
+        var sameTeamNameWithoutSpaces = "RepublicofSouthAfrica";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(teamWithSpacesBetween, sameTeamNameWithoutSpaces));
+    }
+
+    @Test
+    void startGame_gameAlreadyActive_shouldThrowException() {
         scoreboard.startGame(TEST_HOME_TEAM, TEST_AWAY_TEAM);
         Assertions.assertThrows(IllegalStateException.class, () -> scoreboard.startGame(TEST_HOME_TEAM, TEST_AWAY_TEAM));
+    }
+
+    @Test
+    void startGame_teamNameWithLeadingSpace_shouldThrowException() {
+        var teamNameWithLeadingSpace = "    " + "United States";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(teamNameWithLeadingSpace, TEST_AWAY_TEAM));
+    }
+
+    @Test
+    void startGame_teamNameWithTrailingSpace_shouldThrowException() {
+        var teamNameWithTrailingSpace = "United States" + "    ";
+        Assertions.assertThrows(IllegalArgumentException.class, () -> scoreboard.startGame(teamNameWithTrailingSpace, TEST_AWAY_TEAM));
     }
 }
