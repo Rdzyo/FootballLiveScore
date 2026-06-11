@@ -1,17 +1,20 @@
 package com.example.game;
 
+import java.time.Instant;
 import java.util.Objects;
 
 public class Game {
     private final String homeTeam;
     private final String awayTeam;
     private int homeScore, awayScore;
+    private final Instant startTime;
 
-    public Game(String homeTeam, String awayTeam, int homeScore, int awayScore) {
+    public Game(String homeTeam, String awayTeam, int homeScore, int awayScore, Instant startTime) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
+        this.startTime = startTime;
     }
 
     public String getHomeTeam() {
@@ -26,6 +29,7 @@ public class Game {
     public int getAwayScore() {
         return awayScore;
     }
+    public Instant getStartTime() { return startTime; }
 
     @Override
     public boolean equals(Object o) {
@@ -73,5 +77,9 @@ public class Game {
 
     private static boolean isTeamHasSpecialCharactersOrDigits(String teamName) {
         return !teamName.chars().allMatch(ch -> ch == ' ' || Character.isLetter(ch));
+    }
+
+    int sumHomeAndAwayTeamScore() {
+        return this.homeScore + this.awayScore;
     }
 }

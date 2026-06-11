@@ -1,16 +1,19 @@
 package com.example.game;
 
-import java.util.HashSet;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.example.game.Game.validateTeamNames;
 
 public class Scoreboard {
 
-    private final HashSet<Game> activeGames = new HashSet<>();
+    private final ArrayList<Game> activeGames = new ArrayList<>();
 
     Game startGame(String homeTeam, String awayTeam) {
         validateTeamNames(homeTeam, awayTeam);
-        Game game = new Game(homeTeam, awayTeam, 0, 0);
+        Game game = new Game(homeTeam, awayTeam, 0, 0, Instant.now());
         if(activeGames.contains(game)) {
             throw new IllegalStateException("Game with given teams is already live and tracked");
         }
@@ -26,8 +29,11 @@ public class Scoreboard {
                 .ifPresent(game -> game.updateScore(homeScore, awayScore));
     }
 
-    HashSet<Game> getActiveGames() {
-        return activeGames;
+    List<Game> getSummary() {
+        return activeGames.stream()
+                .sorted(Comparator.comparingInt(Game::sumHomeAndAwayTeamScore)
+                        .thenComparing(Game::getStartTime).reversed())
+                .toList();
     }
 
     void finishGame(Game activeGame) {
